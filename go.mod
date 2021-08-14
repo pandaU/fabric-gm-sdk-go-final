@@ -17,7 +17,7 @@ require (
 	github.com/hyperledger/fabric-config v0.0.5
 	github.com/hyperledger/fabric-lib-go v1.0.0
 	github.com/hyperledger/fabric-protos-go v0.0.0-20200707132912-fee30f3ccd23
-	github.com/hyperledger/fabric-sdk-go v0.0.0-00010101000000-000000000000
+	github.com/hyperledger/fabric-sdk-go v1.0.0
 	github.com/letsencrypt/pkcs11key v2.0.1-0.20170608213348-396559074696+incompatible // indirect
 	github.com/miekg/pkcs11 v1.0.3
 	github.com/mitchellh/mapstructure v1.3.3
