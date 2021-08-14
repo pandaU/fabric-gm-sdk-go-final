@@ -8,6 +8,7 @@ package api
 
 import (
 	"errors"
+	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/msp"
 )
 
 var (
@@ -17,7 +18,7 @@ var (
 
 // CAClient provides management of identities in a Fabric network
 type CAClient interface {
-	Enroll(request *EnrollmentRequest) error
+	Enroll(request *EnrollmentRequest) (*msp.UserData,error)
 	Reenroll(request *ReenrollmentRequest) error
 	Register(request *RegistrationRequest) (string, error)
 	Revoke(request *RevocationRequest) (*RevocationResponse, error)

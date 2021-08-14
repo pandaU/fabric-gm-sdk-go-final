@@ -2,10 +2,6 @@ package enroll
 
 import (
 	"fmt"
-	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/core"
-	pmsp "github.com/hyperledger/fabric-sdk-go/pkg/common/providers/msp"
-	"github.com/hyperledger/fabric-sdk-go/pkg/fab/keyvaluestore"
-	"github.com/pkg/errors"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/msp"
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
@@ -56,8 +52,8 @@ func enrollUser(sdk *fabsdk.FabricSDK) {
 	_, err = mspClient.GetSigningIdentity(user)
 	if err == msp.ErrUserNotFound {
 		fmt.Println("Going to enroll user")
-		err = mspClient.Enroll(user, msp.WithSecret(secret))
-
+		userData,err := mspClient.Enroll(user, msp.WithSecret(secret))
+        print(userData)
 		if err != nil {
 			fmt.Printf("Failed to enroll user: %s\n", err)
 		} else {
@@ -87,65 +83,4 @@ func registerUser(user string, secret string, sdk *fabsdk.FabricSDK) {
 		fmt.Printf("Register return error %s", err)
 	}
 
-}
-
-type GatewayStore struct {
-	store core.KVStore
-}
-
-func storeKeyFromUserIdentifier(key pmsp.IdentityIdentifier) string {
-	return key.ID + "@" + key.MSPID + "-cert.pem"
-}
-
-// NewCertFileUserStore1 creates a new instance of CertFileUserStore
-func NewCertFileUserStore1(store core.KVStore) (*GatewayStore, error) {
-	return &GatewayStore{
-		store: store,
-	}, nil
-}
-
-// NewCertFileUserStore creates a new instance of CertFileUserStore
-func NewCertFileUserStore(path string) (*GatewayStore, error) {
-	if path == "" {
-		return nil, errors.New("path is empty")
-	}
-	store, err := keyvaluestore.New(&keyvaluestore.FileKeyValueStoreOptions{
-		Path: path,
-	})
-	if err != nil {
-		return nil, errors.WithMessage(err, "user store creation failed")
-	}
-	return NewCertFileUserStore1(store)
-}
-
-// Load returns the User stored in the store for a key.
-func (s *GatewayStore) Load(key pmsp.IdentityIdentifier) (*pmsp.UserData, error) {
-	cert, err := s.store.Load(storeKeyFromUserIdentifier(key))
-	if err != nil {
-		if err == core.ErrKeyValueNotFound {
-			return nil, msp.ErrUserNotFound
-		}
-		return nil, err
-	}
-	certBytes, ok := cert.([]byte)
-	if !ok {
-		return nil, errors.New("user is not of proper type")
-	}
-	userData := &pmsp.UserData{
-		MSPID:                 key.MSPID,
-		ID:                    key.ID,
-		EnrollmentCertificate: certBytes,
-	}
-	return userData, nil
-}
-
-// Store stores a User into store
-func (s *GatewayStore) Store(user *pmsp.UserData) error {
-	key := storeKeyFromUserIdentifier(pmsp.IdentityIdentifier{MSPID: user.MSPID, ID: user.ID})
-	return s.store.Store(key, user.EnrollmentCertificate)
-}
-
-// Delete deletes a User from store
-func (s *GatewayStore) Delete(key pmsp.IdentityIdentifier) error {
-	return s.store.Delete(storeKeyFromUserIdentifier(key))
 }

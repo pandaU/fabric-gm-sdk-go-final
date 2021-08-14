@@ -44,7 +44,7 @@ func newFabricCAAdapter(caID string, cryptoSuite core.CryptoSuite, config msp.Id
 }
 
 // Enroll handles enrollment.
-func (c *fabricCAAdapter) Enroll(request *api.EnrollmentRequest) ([]byte, error) {
+func (c *fabricCAAdapter) Enroll(request *api.EnrollmentRequest) ([]byte,[]byte, error) {
 
 	logger.Debugf("Enrolling user [%s]", request.Name)
 
@@ -69,9 +69,9 @@ func (c *fabricCAAdapter) Enroll(request *api.EnrollmentRequest) ([]byte, error)
 
 	caresp, err := c.caClient.Enroll(careq)
 	if err != nil {
-		return nil, errors.WithMessage(err, "enroll failed")
+		return nil,nil, errors.WithMessage(err, "enroll failed")
 	}
-	return caresp.Identity.GetECert().Cert(), nil
+	return caresp.Identity.GetECert().Cert(),caresp.Identity.GetECert().Key().SKI(), nil
 }
 
 // Reenroll handles re-enrollment

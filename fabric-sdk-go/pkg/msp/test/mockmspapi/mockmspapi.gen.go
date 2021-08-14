@@ -65,12 +65,12 @@ func (mr *MockCAClientMockRecorder) CreateIdentity(arg0 interface{}) *gomock.Cal
 }
 
 // Enroll mocks base method
-func (m *MockCAClient) Enroll(arg0 *api.EnrollmentRequest) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Enroll", arg0)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
+//func (m *MockCAClient) Enroll(arg0 *api.EnrollmentRequest) error {
+//	m.ctrl.T.Helper()
+//	ret := m.ctrl.Call(m, "Enroll", arg0)
+//	ret0, _ := ret[0].(error)
+//	return ret0
+//}
 
 // Enroll indicates an expected call of Enroll
 func (mr *MockCAClientMockRecorder) Enroll(arg0 interface{}) *gomock.Call {

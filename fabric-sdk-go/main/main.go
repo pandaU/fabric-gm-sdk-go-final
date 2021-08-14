@@ -124,8 +124,8 @@ func enrollUser(sdk *fabsdk.FabricSDK) {
 	_, err = mspClient.GetSigningIdentity(user)
 	if err == msp.ErrUserNotFound {
 		fmt.Println("Going to enroll user")
-		err = mspClient.Enroll(user, msp.WithSecret(secret))
-
+		userDta,err := mspClient.Enroll(user, msp.WithSecret(secret))
+        print(userDta)
 		if err != nil {
 			fmt.Printf("Failed to enroll user: %s\n", err)
 		} else {

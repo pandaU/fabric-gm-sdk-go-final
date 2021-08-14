@@ -320,19 +320,19 @@ func getIdentityResponses(responses []*mspapi.IdentityResponse) []*IdentityRespo
 //
 //  Returns:
 //  an error if enrollment fails
-func (c *Client) Enroll(enrollmentID string, opts ...EnrollmentOption) error {
+func (c *Client) Enroll(enrollmentID string, opts ...EnrollmentOption) (*mspctx.UserData,error) {
 
 	eo := enrollmentOptions{}
 	for _, param := range opts {
 		err := param(&eo)
 		if err != nil {
-			return errors.WithMessage(err, "failed to enroll")
+			return nil,errors.WithMessage(err, "failed to enroll")
 		}
 	}
 
 	ca, err := newCAClient(c.ctx, c.orgName, c.caID)
 	if err != nil {
-		return err
+		return nil,err
 	}
 
 	req := &mspapi.EnrollmentRequest{

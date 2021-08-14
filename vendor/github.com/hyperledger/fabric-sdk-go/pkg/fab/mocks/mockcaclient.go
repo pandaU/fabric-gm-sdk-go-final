@@ -8,6 +8,7 @@ package mocks
 
 import (
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/core"
+	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/msp"
 	"github.com/hyperledger/fabric-sdk-go/pkg/msp/api"
 	"github.com/pkg/errors"
 )
@@ -18,13 +19,13 @@ type MockCAClient struct {
 
 // NewMockCAClient Constructor for a CA client.
 func NewMockCAClient(orgName string, cryptoProvider core.CryptoSuite) (api.CAClient, error) {
-	mcm := MockCAClient{}
-	return &mcm, nil
+	//mcm := MockCAClient{}
+	return nil, nil
 }
 
 // Enroll enrolls a user with a Fabric network
-func (mgr *MockCAClient) Enroll(request *api.EnrollmentRequest) error {
-	return errors.New("not implemented")
+func (mgr *MockCAClient) Enroll(request *api.EnrollmentRequest) (*msp.UserData,error) {
+	return nil,errors.New("not implemented")
 }
 
 // Reenroll re-enrolls a user

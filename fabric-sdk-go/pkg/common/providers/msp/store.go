@@ -12,6 +12,7 @@ type UserData struct {
 	ID                    string
 	MSPID                 string
 	EnrollmentCertificate []byte
+	SKI                   []byte
 }
 
 // UserStore is responsible for UserData persistence
