@@ -24,7 +24,7 @@ func populateWallet(wallet *gateway.Wallet) error {
 	log.Println("============ Populating wallet ============")
 	credPath := "D:\\go-sdk\\fabric-sdk-go-gm-master\\fabric-sdk-go-gm-master"
 
-	certPath := filepath.Join(credPath, "wallet", "admin@Org1MSP-cert.pem")
+	certPath := filepath.Join(credPath, "wallet", "appuser@Org1MSP-cert.pem")
 	// read the certificate pem
 	cert, err := ioutil.ReadFile(filepath.Clean(certPath))
 	if err != nil {
@@ -48,7 +48,7 @@ func populateWallet(wallet *gateway.Wallet) error {
 
 	identity := gateway.NewX509Identity("Org1MSP", string(cert), string(key))
 
-	return wallet.Put("admin", identity)
+	return wallet.Put("appuser", identity)
 }
 func main() {
 	//user = "admin"
@@ -75,7 +75,8 @@ func main() {
 		log.Fatalf("Failed to create wallet: %v", err)
 	}
 	//err = populateWallet(wallet)
-	if !wallet.Exists("admin") {
+	if !wallet.Exists("appuser") {
+		//enroll.Register()
 		enroll.EnrollUser()
 		err = populateWallet(wallet)
 		if err != nil {
@@ -84,7 +85,7 @@ func main() {
 	}
 	gw, err := gateway.Connect(
 		gateway.WithConfig(config.FromFile("D:\\go-sdk\\fabric-sdk-go-gm-master\\fabric-sdk-go-gm-master\\main\\config_test.yaml")),
-		gateway.WithIdentity(wallet, "admin"),
+		gateway.WithIdentity(wallet, "appuser"),
 	)
 	if err != nil {
 		log.Fatalf("Failed to connect to gateway: %v", err)
@@ -96,8 +97,8 @@ func main() {
 		log.Fatalf("Failed to get network: %v", err)
 	}
 	contract := network.GetContract("basic")
-	contract.SubmitTransaction("create","user","1","谢雄雄")
-	resp ,_ :=contract.EvaluateTransaction("get","user","1")
+	contract.SubmitTransaction("create","user","2","王慧馨")
+	resp ,_ :=contract.EvaluateTransaction("get","user","2")
 	print(string(resp))
 }
 func queryCC(client *channel.Client, k1 []byte ,k2 []byte) string {

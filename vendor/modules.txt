@@ -234,7 +234,7 @@ github.com/hyperledger/fabric-protos-go/orderer
 github.com/hyperledger/fabric-protos-go/orderer/etcdraft
 github.com/hyperledger/fabric-protos-go/peer
 github.com/hyperledger/fabric-protos-go/peer/lifecycle
-# github.com/hyperledger/fabric-sdk-go v0.0.0-00010101000000-000000000000 => ./fabric-sdk-go-v1.0.0-gm
+# github.com/hyperledger/fabric-sdk-go v1.0.0 => ./fabric-sdk-go
 github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric-ca/lib
 github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric-ca/lib/attrmgr
 github.com/hyperledger/fabric-sdk-go/internal/github.com/hyperledger/fabric-ca/lib/client/credential
