@@ -51,54 +51,37 @@ func populateWallet(wallet *gateway.Wallet) error {
 	return wallet.Put("appuser", identity)
 }
 func main() {
-	//user = "admin"
-	//secret = "adminpw"
-	//channelName = "mychannel"
-	//cc = "mycc_3"
-	//fmt.Println("Reading connection profile..")
-	//c := config.FromFile("D:\\go-sdk\\fabric-sdk-go-gm-master\\fabric-sdk-go-gm-master\\main\\config_test.yaml")
-	//sdk, err := fabsdk.New(c)
-	//if err != nil {
-	//	fmt.Printf("Failed to create new SDK: %s\n", err)
-	//	os.Exit(1)
-	//}
-	//defer sdk.Close()
-	//
-	////registerUser(user,secret,sdk)
-	//enrollUser(sdk)
-	//clientChannelContext := sdk.ChannelContext(channelName, fabsdk.WithUser(user))
-	//client, err := channel.New(clientChannelContext)
-	//resp := queryCC(client, []byte("user"), []byte("1"))
-	//print(resp)
-	wallet, err := gateway.NewFileSystemWallet("wallet")
+	user = "pandau"
+	secret = "pandaupw"
+	channelName = "mychannel"
+
+	walletPath := "wallet"
+	wallet, err := gateway.NewFileSystemWallet(walletPath)
 	if err != nil {
 		log.Fatalf("Failed to create wallet: %v", err)
 	}
 	//err = populateWallet(wallet)
-	if !wallet.Exists("appuser") {
-		//enroll.Register()
-		enroll.EnrollUser()
-		err = populateWallet(wallet)
-		if err != nil {
-			log.Fatalf("Failed to populate wallet contents: %v", err)
-		}
+	configPath :="D:\\go-sdk\\fabric-sdk-go-gm-master\\fabric-sdk-go-gm-master\\main\\config_test.yaml"
+	if !wallet.Exists(user) {
+		enroll.Register(user,secret,configPath)
+		enroll.EnrollUser(user,secret,configPath,walletPath)
 	}
 	gw, err := gateway.Connect(
-		gateway.WithConfig(config.FromFile("D:\\go-sdk\\fabric-sdk-go-gm-master\\fabric-sdk-go-gm-master\\main\\config_test.yaml")),
-		gateway.WithIdentity(wallet, "appuser"),
+		gateway.WithConfig(config.FromFile(configPath)),
+		gateway.WithIdentity(wallet, user),
 	)
 	if err != nil {
 		log.Fatalf("Failed to connect to gateway: %v", err)
 	}
 	defer gw.Close()
 
-	network, err := gw.GetNetwork("mychannel")
+	network, err := gw.GetNetwork(channelName)
 	if err != nil {
 		log.Fatalf("Failed to get network: %v", err)
 	}
 	contract := network.GetContract("basic")
-	contract.SubmitTransaction("create","user","2","王慧馨")
-	resp ,_ :=contract.EvaluateTransaction("get","user","2")
+	contract.SubmitTransaction("create","user","6","谢雄雄")
+	resp ,_ :=contract.EvaluateTransaction("get","user","6")
 	print(string(resp))
 }
 func queryCC(client *channel.Client, k1 []byte ,k2 []byte) string {

@@ -168,3 +168,8 @@ func (fkvs *FileKeyValueStore) Delete(key interface{}) error {
 	}
 	return os.Remove(file)
 }
+// Delete deletes the value for a key.
+func (fkvs *FileKeyValueStore) getPath() string {
+	return fkvs.path
+}
+

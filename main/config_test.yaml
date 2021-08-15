@@ -60,9 +60,9 @@ client:
     # [Optional]. Client key and cert for TLS handshake with peers and orderers
     client:
       key:
-        path: C:\Users\xxx\Desktop\gm-sdk\fabric-sdk-go-v1.0.0-gm\main\organizations\peerOrganizations\org1.xxzx.com\peers\peer0.org1.xxzx.com\tls\server.key
+        path: D:\go-sdk\fabric-sdk-go-gm-master\fabric-sdk-go-gm-master\main\organizations\peerOrganizations\org1.xxzx.com\peers\peer0.org1.xxzx.com\tls\server.key
       cert:
-        path: C:\Users\xxx\Desktop\gm-sdk\fabric-sdk-go-v1.0.0-gm\main\organizations\peerOrganizations\org1.xxzx.com\peers\peer0.org1.xxzx.com\tls\server.crt
+        path: D:\go-sdk\fabric-sdk-go-gm-master\fabric-sdk-go-gm-master\main\organizations\peerOrganizations\org1.xxzx.com\peers\peer0.org1.xxzx.com\tls\server.crt
 
 #
 # [Optional]. But most apps would have this section so that channel objects can be constructed
@@ -186,7 +186,7 @@ organizations:
     mspid: Org1MSP
 
     # This org's MSP store (absolute path or relative to client.cryptoconfig)
-    cryptoPath:  C:\Users\xxx\Desktop\gm-sdk\fabric-sdk-go-v1.0.0-gm\main\organizations\ordererOrganizations\xxzx.com\users\Admin@xxzx.com\msp
+    cryptoPath:  D:\go-sdk\fabric-sdk-go-gm-master\fabric-sdk-go-gm-master\main\organizations\ordererOrganizations\xxzx.com\users\Admin@xxzx.com\msp
 
     peers:
       - peer0.org1.xxzx.com
@@ -211,7 +211,7 @@ organizations:
     mspID: OrdererMSP
 
     # Needed to load users crypto keys and certs for this org (absolute path or relative to global crypto path, DEV mode)
-    cryptoPath: C:\Users\xxx\Desktop\gm-sdk\fabric-sdk-go-v1.0.0-gm\main\organizations\ordererOrganizations\xxzx.com\orderers\orderer.xxzx.com\msp
+    cryptoPath: D:\go-sdk\fabric-sdk-go-gm-master\fabric-sdk-go-gm-master\main\organizations\ordererOrganizations\xxzx.com\orderers\orderer.xxzx.com\msp
 
 
 #
@@ -241,7 +241,7 @@ orderers:
 
     tlsCACerts:
       # Certificate location absolute path
-      path: C:\Users\xxx\Desktop\gm-sdk\fabric-sdk-go-v1.0.0-gm\main\organizations\ordererOrganizations\xxzx.com\orderers\orderer.xxzx.com\msp\tlscacerts\tlsca.xxzx.com-cert.pem
+      path: D:\go-sdk\fabric-sdk-go-gm-master\fabric-sdk-go-gm-master\main\organizations\ordererOrganizations\xxzx.com\orderers\orderer.xxzx.com\msp\tlscacerts\tlsca.xxzx.com-cert.pem
 
 #
 # List of peers to send various requests to, including endorsement, query
@@ -268,7 +268,7 @@ peers:
 
     tlsCACerts:
       # Certificate location absolute path
-      path: C:\Users\xxx\Desktop\gm-sdk\fabric-sdk-go-v1.0.0-gm\main\organizations\peerOrganizations\org1.xxzx.com\peers\peer0.org1.xxzx.com\tls\ca.crt
+      path: D:\go-sdk\fabric-sdk-go-gm-master\fabric-sdk-go-gm-master\main\organizations\peerOrganizations\org1.xxzx.com\peers\peer0.org1.xxzx.com\tls\ca.crt
 
 
 
@@ -286,13 +286,13 @@ certificateAuthorities:
       ssl-target-name-override: ca.org1.xxzx.com
     tlsCACerts:
       # Comma-Separated list of paths
-      path: C:\Users\xxx\Desktop\gm-sdk\fabric-sdk-go-v1.0.0-gm\main\organizations\peerOrganizations\org1.xxzx.com\ca\ca.org1.xxzx.com-cert.pem
+      path: D:\go-sdk\fabric-sdk-go-gm-master\fabric-sdk-go-gm-master\main\organizations\peerOrganizations\org1.xxzx.com\ca\ca.org1.xxzx.com-cert.pem
       # Client key and cert for SSL handshake with Fabric CA
       client:
         key:
-          path: C:\Users\xxx\Desktop\gm-sdk\fabric-sdk-go-v1.0.0-gm\main\organizations\peerOrganizations\org1.xxzx.com\peers\peer0.org1.xxzx.com\tls\server.key
+          path: D:\go-sdk\fabric-sdk-go-gm-master\fabric-sdk-go-gm-master\main\organizations\peerOrganizations\org1.xxzx.com\peers\peer0.org1.xxzx.com\tls\server.key
         cert:
-          path: C:\Users\xxx\Desktop\gm-sdk\fabric-sdk-go-v1.0.0-gm\main\organizations\peerOrganizations\org1.xxzx.com\peers\peer0.org1.xxzx.com\tls\server.crt
+          path: D:\go-sdk\fabric-sdk-go-gm-master\fabric-sdk-go-gm-master\main\organizations\peerOrganizations\org1.xxzx.com\peers\peer0.org1.xxzx.com\tls\server.crt
 
 
     # Fabric-CA supports dynamic user enrollment via REST APIs. A "root" user, a.k.a registrar, is

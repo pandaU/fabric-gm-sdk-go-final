@@ -7,6 +7,7 @@ SPDX-License-Identifier: Apache-2.0
 package msp
 
 import (
+	"encoding/hex"
 	"fmt"
 	"strings"
 
@@ -139,17 +140,21 @@ func (c *CAClientImpl) Enroll(request *api.EnrollmentRequest) (*msp.UserData,err
 	if err != nil {
 		return nil,errors.Wrap(err, "enroll failed")
 	}
+	keyPath :=hex.EncodeToString(ski)
 
 	userData := &msp.UserData{
 		MSPID:                 c.orgMSPID,
 		ID:                    request.Name,
 		EnrollmentCertificate: cert,
-		SKI: ski,
+		KeyPath: keyPath,
 	}
-	err = c.userStore.Store(userData)
-	if err != nil {
-		return nil,errors.Wrap(err, "enroll failed")
+	if request.Name == "admin" {
+		err = c.userStore.Store(userData)
+		if err != nil {
+			return nil,errors.Wrap(err, "enroll failed")
+		}
 	}
+
 	return userData,nil
 }
 

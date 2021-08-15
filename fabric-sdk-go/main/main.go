@@ -5,10 +5,12 @@ import (
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/msp"
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
+	"github.com/hyperledger/fabric-sdk-go/pkg/core/cryptosuite"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 	"github.com/hyperledger/fabric-sdk-go/pkg/gateway"
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 )
 var (
@@ -49,10 +51,10 @@ func populateWallet(wallet *gateway.Wallet) error {
 	return wallet.Put("appUser", identity)
 }
 func main() {
-	//user = "admin"
-	//secret = "adminpw"
-	//channelName = "mychannel"
-	//cc = "mycc_3"
+	user = "admin"
+	secret = "adminpw"
+	channelName = "mychannel"
+	cc = "mycc_3"
 	//fmt.Println("Reading connection profile..")
 	//c := config.FromFile("C:\\Users\\xxx\\Desktop\\gm-sdk\\fabric-sdk-go-v1.0.0-gm\\main\\config_test.yaml")
 	//sdk, err := fabsdk.New(c)
@@ -63,6 +65,7 @@ func main() {
 	//defer sdk.Close()
 	//
 	////registerUser(user,secret,sdk)
+	//sdk.Config()
 	//enrollUser(sdk)
 	//clientChannelContext := sdk.ChannelContext(channelName, fabsdk.WithUser(user))
 	//client, err := channel.New(clientChannelContext)
@@ -73,7 +76,7 @@ func main() {
 		log.Fatalf("Failed to create wallet: %v", err)
 	}
 	err = populateWallet(wallet)
-	if !wallet.Exists("appUser") {
+	if !wallet.Exists("admin") {
 		err = populateWallet(wallet)
 		if err != nil {
 			log.Fatalf("Failed to populate wallet contents: %v", err)
@@ -81,7 +84,7 @@ func main() {
 	}
 	gw, err := gateway.Connect(
 		gateway.WithConfig(config.FromFile("C:\\Users\\xxx\\Desktop\\gm-sdk\\fabric-sdk-go-v1.0.0-gm\\main\\organizations\\peerOrganizations\\org1.xxzx.com\\connection-org1.yaml")),
-		gateway.WithIdentity(wallet, "appUser"),
+		gateway.WithIdentity(wallet, "admin"),
 	)
 	if err != nil {
 		log.Fatalf("Failed to connect to gateway: %v", err)
@@ -120,12 +123,19 @@ func enrollUser(sdk *fabsdk.FabricSDK) {
 	if err != nil {
 		fmt.Printf("Failed to create msp client: %s\n", err)
 	}
-
+	configBackend, err :=sdk.Config()
+	cryptoSuiteConfig := cryptosuite.ConfigFromBackend(configBackend)
+	keyStore :=cryptoSuiteConfig.KeyStorePath()
 	_, err = mspClient.GetSigningIdentity(user)
 	if err == msp.ErrUserNotFound {
 		fmt.Println("Going to enroll user")
 		userDta,err := mspClient.Enroll(user, msp.WithSecret(secret))
-        print(userDta)
+		dir, err := os.Getwd()
+		keystr :=filepath.Join(dir,keyStore,userDta.KeyPath + "_sk")
+		key , err:= ioutil.ReadFile(keystr)
+		identity := gateway.NewX509Identity(userDta.MSPID, string(userDta.EnrollmentCertificate), string(key))
+		wallet, err := gateway.NewFileSystemWallet("wallet")
+		wallet.Put(user, identity)
 		if err != nil {
 			fmt.Printf("Failed to enroll user: %s\n", err)
 		} else {
